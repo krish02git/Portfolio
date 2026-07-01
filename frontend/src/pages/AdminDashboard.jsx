@@ -1,4 +1,4 @@
-import { useState, useEffect } from 'react';
+import { useState, useEffect, useRef } from 'react';
 import { useSelector, useDispatch } from 'react-redux';
 import { useNavigate } from 'react-router-dom';
 import { setAuthenticated } from '../store/authSlice';
@@ -11,6 +11,19 @@ const AdminDashboard = () => {
   const navigate = useNavigate();
   const dispatch = useDispatch();
   const [activeTab, setActiveTab] = useState('work');
+  const scrollRef = useRef(null);
+
+  const scrollLeft = () => {
+    if (scrollRef.current) {
+      scrollRef.current.scrollBy({ left: -200, behavior: 'smooth' });
+    }
+  };
+
+  const scrollRight = () => {
+    if (scrollRef.current) {
+      scrollRef.current.scrollBy({ left: 200, behavior: 'smooth' });
+    }
+  };
 
   useEffect(() => {
     if (!isAuthenticated) {
@@ -42,24 +55,32 @@ const AdminDashboard = () => {
         </button>
       </div>
 
-      <div className="flex gap-4 mb-6 border-b border-black dark:border-white pb-2 overflow-x-auto hide-scrollbar">
-        <button 
-          onClick={() => setActiveTab('work')}
-          className={`px-4 py-2 text-sm transition-colors whitespace-nowrap ${activeTab === 'work' ? 'font-bold text-[var(--text-main)] border-b-2 border-gray-400' : 'text-muted hover:text-[var(--text-main)]'}`}
-        >
-          Manage Work
+      <div className="flex items-center gap-2 mb-6 border-b border-black dark:border-white pb-2">
+        <button onClick={scrollLeft} className="neo-button-sm p-1.5 shrink-0" title="Scroll Left">
+          <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"><path d="m15 18-6-6 6-6"/></svg>
         </button>
-        <button 
-          onClick={() => setActiveTab('projects')}
-          className={`px-4 py-2 text-sm transition-colors whitespace-nowrap ${activeTab === 'projects' ? 'font-bold text-[var(--text-main)] border-b-2 border-gray-400' : 'text-muted hover:text-[var(--text-main)]'}`}
-        >
-          Manage Projects
-        </button>
-        <button 
-          onClick={() => setActiveTab('blogs')}
-          className={`px-4 py-2 text-sm transition-colors whitespace-nowrap ${activeTab === 'blogs' ? 'font-bold text-[var(--text-main)] border-b-2 border-gray-400' : 'text-muted hover:text-[var(--text-main)]'}`}
-        >
-          Manage Blogs
+        <div ref={scrollRef} className="flex gap-4 overflow-x-auto hide-scrollbar flex-1 scroll-smooth">
+          <button 
+            onClick={() => setActiveTab('work')}
+            className={`px-4 py-2 text-sm transition-colors whitespace-nowrap ${activeTab === 'work' ? 'font-bold text-[var(--text-main)] border-b-2 border-gray-400' : 'text-muted hover:text-[var(--text-main)]'}`}
+          >
+            Manage Work
+          </button>
+          <button 
+            onClick={() => setActiveTab('projects')}
+            className={`px-4 py-2 text-sm transition-colors whitespace-nowrap ${activeTab === 'projects' ? 'font-bold text-[var(--text-main)] border-b-2 border-gray-400' : 'text-muted hover:text-[var(--text-main)]'}`}
+          >
+            Manage Projects
+          </button>
+          <button 
+            onClick={() => setActiveTab('blogs')}
+            className={`px-4 py-2 text-sm transition-colors whitespace-nowrap ${activeTab === 'blogs' ? 'font-bold text-[var(--text-main)] border-b-2 border-gray-400' : 'text-muted hover:text-[var(--text-main)]'}`}
+          >
+            Manage Blogs
+          </button>
+        </div>
+        <button onClick={scrollRight} className="neo-button-sm p-1.5 shrink-0" title="Scroll Right">
+          <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"><path d="m9 18 6-6-6-6"/></svg>
         </button>
       </div>
 

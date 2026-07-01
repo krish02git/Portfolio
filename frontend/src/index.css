@@ -89,6 +89,27 @@ body {
     inset -3px -3px 6px var(--neo-shadow-light);
 }
 
+.neo-button-subtle {
+  background-color: var(--bg-color);
+  color: var(--text-main);
+  border: 1px solid var(--neo-border);
+  box-shadow: 3px 3px 7px var(--neo-shadow-dark),
+    -3px -3px 7px var(--neo-shadow-light);
+  cursor: pointer;
+  transition: all 0.2s ease;
+}
+
+.neo-button-subtle:hover {
+  box-shadow: 2px 2px 5px var(--neo-shadow-dark),
+    -2px -2px 5px var(--neo-shadow-light);
+  transform: translateY(1px);
+}
+
+.neo-button-subtle:active {
+  box-shadow: inset 2px 2px 5px var(--neo-shadow-dark),
+    inset -2px -2px 5px var(--neo-shadow-light);
+}
+
 .neo-button-sm {
   padding: 4px 10px;
   font-size: 12px;
