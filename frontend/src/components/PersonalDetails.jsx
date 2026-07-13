@@ -1,25 +1,27 @@
+import { useState } from 'react';
 import avatar from '../assets/krishpfp.jfif';
-
 const PersonalDetails = () => {
-  return (
-    <div className="flex flex-col items-start gap-3 mb-2 mt-0">
-      <div className="flex items-center gap-4">
-        {/* Avatar */}
-        <div className="w-[72px] h-[72px] md:w-[88px] md:h-[88px] !rounded-full neo-box flex items-center justify-center overflow-hidden flex-shrink-0 p-1 border-2 border-[var(--accent)]">
-          <img
-            src={avatar}
-            alt="Krish Kumar"
-            className="w-full h-full object-cover rounded-full"
-          />
-        </div>
 
-        <div className="flex flex-col gap-0.5">
-          <h1 className="text-xl md:text-2xl font-bold lens-target w-max">Krish Kumar</h1>
-          <p className="text-muted flex items-center flex-wrap gap-y-1 text-[11px] sm:text-[13px]">
-            Engineer <span className="w-1 h-1 rounded-full bg-current opacity-60 mx-1.5 sm:mx-2.5 shrink-0"></span> Polymath <span className="w-1 h-1 rounded-full bg-current opacity-60 mx-1.5 sm:mx-2.5 shrink-0"></span> k0102rish@gmail.com
-          </p>
+  return (
+    <>
+      <div className="flex flex-col items-start gap-3 mb-2 mt-0">
+        <div className="flex items-center gap-4">
+          {/* Avatar */}
+          <div className="w-[72px] h-[72px] md:w-[88px] md:h-[88px] !rounded-full neo-box flex items-center justify-center overflow-hidden flex-shrink-0 p-1 border-2 border-[var(--accent)]">
+            <img
+              src={avatar}
+              alt="Krish Kumar"
+              className="w-full h-full object-cover rounded-full"
+            />
+          </div>
+
+          <div className="flex flex-col gap-0.5">
+            <h1 className="text-xl md:text-2xl font-bold lens-target w-max">Krish Kumar</h1>
+            <p className="text-muted flex items-center flex-wrap gap-y-1 text-[11px] sm:text-[13px]">
+              Engineer <span className="w-1 h-1 rounded-full bg-current opacity-60 mx-1.5 sm:mx-2.5 shrink-0"></span> Polymath <span className="w-1 h-1 rounded-full bg-current opacity-60 mx-1.5 sm:mx-2.5 shrink-0"></span> k0102rish@gmail.com
+            </p>
+          </div>
         </div>
-      </div>
 
       <div className="flex flex-col gap-2.5">
         <p className="text-[13px] leading-relaxed max-w-[90%]">
@@ -50,6 +52,7 @@ const PersonalDetails = () => {
         </div>
       </div>
     </div>
+    </>
   );
 };
 

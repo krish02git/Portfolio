@@ -38,6 +38,7 @@ app.use('/user', authRoutes);
 app.use('/work', workRoutes);
 app.use('/project', projectRoutes);
 app.use('/blog', blogRoutes);
+app.use('/hire', require('./src/routes/hireRoutes'));
 
 async function main() {
   try {

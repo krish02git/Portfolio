@@ -1,6 +1,8 @@
 import { Link, useLocation, useNavigate } from 'react-router-dom';
 import { useState, useEffect } from 'react';
 import { flushSync } from 'react-dom';
+import HireModal from './HireModal';
+
 const Navbar = () => {
   const location = useLocation();
   const navigate = useNavigate();
@@ -10,6 +12,7 @@ const Navbar = () => {
   });
 
   const [isScrolled, setIsScrolled] = useState(false);
+  const [isHireModalOpen, setIsHireModalOpen] = useState(false);
 
   useEffect(() => {
     if (isDark) {
@@ -120,6 +123,14 @@ const Navbar = () => {
         </div>
 
         <div className="flex items-center gap-2">
+          <button 
+            onClick={() => setIsHireModalOpen(true)}
+            className="neo-button text-[11px] py-1 px-3 !rounded-full bg-[var(--accent)] text-white hover:bg-[var(--accent)]/90 flex items-center gap-1.5 font-bold tracking-wide shrink-0"
+          >
+            <span className="w-1.5 h-1.5 rounded-full bg-green-400 animate-pulse"></span>
+            Hire me
+          </button>
+
           <button
             onClick={toggleTheme}
             className="neo-button-subtle !rounded-full w-[38px] h-[38px] p-0 flex items-center justify-center text-muted hover:text-[var(--text-main)] transition-colors"
@@ -133,6 +144,7 @@ const Navbar = () => {
           </button>
         </div>
       </div>
+      <HireModal isOpen={isHireModalOpen} onClose={() => setIsHireModalOpen(false)} />
     </nav>
   );
 };

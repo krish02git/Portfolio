@@ -123,7 +123,7 @@ const BlogCard = ({ blog, detailed = false, isHome = false }) => {
       </div>
 
       {isHome && hovered && (
-        <span className="absolute bottom-2 right-4 text-[11px] text-[var(--accent)] font-medium animate-pulse">
+        <span className="absolute bottom-2 right-4 text-[11px] text-[var(--text-main)] opacity-70 font-medium animate-pulse">
           {expanded ? '← Collapse' : '→ Open Full'}
         </span>
       )}

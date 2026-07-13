@@ -5,6 +5,7 @@ import { setAuthenticated } from '../store/authSlice';
 import AdminWorkPanel from '../components/admin/AdminWorkPanel';
 import AdminProjectPanel from '../components/admin/AdminProjectPanel';
 import AdminBlogPanel from '../components/admin/AdminBlogPanel';
+import AdminHirePanel from '../components/admin/AdminHirePanel';
 
 const AdminDashboard = () => {
   const isAuthenticated = useSelector(state => state.auth.isAuthenticated);
@@ -78,6 +79,12 @@ const AdminDashboard = () => {
           >
             Manage Blogs
           </button>
+          <button 
+            onClick={() => setActiveTab('hires')}
+            className={`px-4 py-2 text-sm transition-colors whitespace-nowrap ${activeTab === 'hires' ? 'font-bold text-[var(--text-main)] border-b-2 border-gray-400' : 'text-muted hover:text-[var(--text-main)]'}`}
+          >
+            Manage Hires
+          </button>
         </div>
         <button onClick={scrollRight} className="neo-button-sm p-1.5 shrink-0" title="Scroll Right">
           <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"><path d="m9 18 6-6-6-6"/></svg>
@@ -88,6 +95,7 @@ const AdminDashboard = () => {
         {activeTab === 'work' && <AdminWorkPanel />}
         {activeTab === 'projects' && <AdminProjectPanel />}
         {activeTab === 'blogs' && <AdminBlogPanel />}
+        {activeTab === 'hires' && <AdminHirePanel />}
       </div>
     </div>
   );

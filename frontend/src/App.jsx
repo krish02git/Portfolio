@@ -9,6 +9,7 @@ import Resume from './pages/Resume';
 import Admin from './pages/Admin';
 import AdminDashboard from './pages/AdminDashboard';
 import CustomCursor from './components/CustomCursor';
+import ScrollToTop from './components/ScrollToTop';
 
 function App() {
   return (
@@ -29,6 +30,7 @@ function App() {
         </main>
         <Footer />
       </div>
+      <ScrollToTop />
     </Router>
   );
 }
