@@ -127,7 +127,6 @@ const Navbar = () => {
             onClick={() => setIsHireModalOpen(true)}
             className="neo-button text-[11px] py-1 px-3 !rounded-full bg-[var(--accent)] text-white hover:bg-[var(--accent)]/90 flex items-center gap-1.5 font-bold tracking-wide shrink-0"
           >
-            <span className="w-1.5 h-1.5 rounded-full bg-green-400 animate-pulse"></span>
             Hire me
           </button>
 

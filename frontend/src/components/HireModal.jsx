@@ -61,9 +61,6 @@ const HireModal = ({ isOpen, onClose }) => {
         </button>
 
         <h2 className="text-2xl font-bold mb-2">Let's Work Together</h2>
-        <div className="mb-6 p-3 rounded-lg border border-black/20 dark:border-white/20 bg-black/5 dark:bg-white/5 text-sm text-[var(--text-main)] font-medium">
-          <p>All services are online mode but within Bangalore, India onsite could be manageable.</p>
-        </div>
 
         {status.success ? (
           <div className="py-12 flex flex-col items-center justify-center text-center">
