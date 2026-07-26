@@ -25,7 +25,7 @@ const Work = () => {
           <p className="text-muted">No experience found.</p>
         ) : (
           experiences.map(exp => (
-            <ExperienceCard key={exp._id || exp.id} experience={exp} detailed={true} />
+            <ExperienceCard key={exp._id || exp.id} experience={exp} detailed={true} showLinks={false} />
           ))
         )}
       </div>

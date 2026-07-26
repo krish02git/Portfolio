@@ -8,7 +8,7 @@ const GitHubIcon = ({ size = 15 }) => (
   </svg>
 );
 
-const ProjectCard = ({ project, detailed = false, isHome = false }) => {
+const ProjectCard = ({ project, detailed = false, isHome = false, showLinks = true }) => {
   const [hovered, setHovered] = useState(false);
   const [expanded, setExpanded] = useState(false);
 
@@ -45,7 +45,7 @@ const ProjectCard = ({ project, detailed = false, isHome = false }) => {
             )}
           </div>
           <p className="text-[13px] text-muted mt-1">{project.description}</p>
-          {project.liveLink && (
+          {showLinks && project.liveLink && (
             <a
               href={project.liveLink}
               target="_blank"
@@ -68,7 +68,7 @@ const ProjectCard = ({ project, detailed = false, isHome = false }) => {
             </div>
           )}
           <div className="flex flex-col items-start sm:items-end gap-2">
-            {githubLinks.map((link, index) => (
+            {showLinks && githubLinks.map((link, index) => (
               <a
                 key={index}
                 href={link}

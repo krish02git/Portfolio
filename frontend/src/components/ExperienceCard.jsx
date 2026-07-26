@@ -2,7 +2,7 @@ import React, { useState } from 'react';
 import { Calendar, MapPin, ExternalLink } from 'lucide-react';
 import { getTechSvg } from '../utils/techStack';
 
-const ExperienceCard = ({ experience, detailed = false, isHome = false }) => {
+const ExperienceCard = ({ experience, detailed = false, isHome = false, showLinks = true }) => {
   const [hovered, setHovered] = useState(false);
   const [expanded, setExpanded] = useState(false);
 
@@ -35,7 +35,7 @@ const ExperienceCard = ({ experience, detailed = false, isHome = false }) => {
             )}
           </div>
           <p className="text-[13px] text-muted mt-1">{experience.role}</p>
-          {experience.websiteLink && (
+          {showLinks && experience.websiteLink && (
             <a
               href={experience.websiteLink}
               target="_blank"

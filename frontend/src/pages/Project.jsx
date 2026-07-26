@@ -25,7 +25,7 @@ const Project = () => {
           <p className="text-muted">No projects found.</p>
         ) : (
           projects.map(proj => (
-            <ProjectCard key={proj._id || proj.id} project={proj} detailed={true} />
+            <ProjectCard key={proj._id || proj.id} project={proj} detailed={true} showLinks={false} />
           ))
         )}
       </div>
