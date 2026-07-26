@@ -28,57 +28,13 @@ const Home = () => {
   const topProjects = projects.slice(0, 2);
   const topBlogs = blogs.slice(0, 2);
 
-  const workLinks = experiences
-    .filter(exp => exp.websiteLink)
-    .slice(0, 3)
-    .map(exp => ({ label: exp.company, url: exp.websiteLink }));
 
-  const liveLinks = projects
-    .filter(proj => proj.liveLink)
-    .slice(0, 3)
-    .map(proj => ({ label: proj.title, url: proj.liveLink }));
-
-  const hasLinks = workLinks.length > 0 || liveLinks.length > 0;
 
   return (
     <div className="flex flex-col gap-6 pb-6">
       <PersonalDetails />
 
-      {/* Website links (work) & Live links (projects) — only shown when data exists */}
-      {hasLinks && (
-        <div className="flex flex-wrap gap-2 -mt-3">
-          {workLinks.map((item, i) => (
-            <a
-              key={`work-${i}`}
-              href={item.url}
-              target="_blank"
-              rel="noopener noreferrer"
-              className="flex items-center gap-1.5 neo-button-sm !rounded-full px-3 py-1.5 text-[12px] font-medium text-muted hover:text-[var(--text-main)] transition-all duration-300"
-              title={`${item.label} website`}
-            >
-              <svg viewBox="0 0 24 24" width="13" height="13" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" className="shrink-0">
-                <circle cx="12" cy="12" r="10"/><line x1="2" y1="12" x2="22" y2="12"/><path d="M12 2a15.3 15.3 0 0 1 4 10 15.3 15.3 0 0 1-4 10 15.3 15.3 0 0 1-4-10 15.3 15.3 0 0 1 4-10z"/>
-              </svg>
-              <span>{item.url.replace(/^https?:\/\/(www\.)?/, '').replace(/\/$/, '')}</span>
-            </a>
-          ))}
-          {liveLinks.map((item, i) => (
-            <a
-              key={`live-${i}`}
-              href={item.url}
-              target="_blank"
-              rel="noopener noreferrer"
-              className="flex items-center gap-1.5 neo-button-sm !rounded-full px-3 py-1.5 text-[12px] font-medium text-muted hover:text-[var(--text-main)] transition-all duration-300"
-              title={`${item.label} live`}
-            >
-              <svg viewBox="0 0 24 24" width="13" height="13" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" className="shrink-0">
-                <path d="M18 13v6a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V8a2 2 0 0 1 2-2h6"/><polyline points="15 3 21 3 21 9"/><line x1="10" y1="14" x2="21" y2="3"/>
-              </svg>
-              <span>{item.url.replace(/^https?:\/\/(www\.)?/, '').replace(/\/$/, '')}</span>
-            </a>
-          ))}
-        </div>
-      )}
+
 
       <section>
         <h2 className="text-xl font-bold mb-3">Experience</h2>
