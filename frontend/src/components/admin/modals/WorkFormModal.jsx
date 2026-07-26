@@ -11,6 +11,7 @@ const WorkFormModal = ({ isOpen, onClose, initialData }) => {
     company: '',
     jobType: '',
     role: '',
+    websiteLink: '',
     startDate: '',
     endDate: '',
     location: '',
@@ -29,6 +30,7 @@ const WorkFormModal = ({ isOpen, onClose, initialData }) => {
           company: initialData.company || '',
           jobType: initialData.jobType || '',
           role: initialData.role || '',
+          websiteLink: initialData.websiteLink || '',
           startDate: initialData.startDate || '',
           endDate: initialData.endDate || '',
           location: initialData.location || '',
@@ -38,7 +40,7 @@ const WorkFormModal = ({ isOpen, onClose, initialData }) => {
         setIsCurrent(initialData.endDate === 'Present');
       } else {
         setFormData({
-          company: '', jobType: '', role: '', startDate: '', endDate: '', location: '', technologies: [], responsibilities: ''
+          company: '', jobType: '', role: '', websiteLink: '', startDate: '', endDate: '', location: '', technologies: [], responsibilities: ''
         });
         setIsCurrent(false);
       }
@@ -131,6 +133,10 @@ const WorkFormModal = ({ isOpen, onClose, initialData }) => {
             <div className="flex flex-col gap-1">
               <label className="text-[12px] text-muted ml-1">Location</label>
               <input name="location" value={formData.location} onChange={handleChange} className="neo-box-inset p-3 text-[14px] bg-transparent outline-none" />
+            </div>
+            <div className="flex flex-col gap-1 md:col-span-2">
+              <label className="text-[12px] text-muted ml-1">Website Link</label>
+              <input name="websiteLink" value={formData.websiteLink} onChange={handleChange} placeholder="https://company.com" className="neo-box-inset p-3 text-[14px] bg-transparent outline-none" />
             </div>
             <div className="flex flex-col gap-1">
               <label className="text-[12px] text-muted ml-1">Start Date</label>

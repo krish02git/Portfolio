@@ -14,6 +14,7 @@ exports.getWork = async (req, res) => {
             company: exp.company,
             jobType: exp.jobType,
             role: exp.role,
+            websiteLink: exp.websiteLink || '',
             startDate: exp.startDate,
             endDate: exp.endDate,
             location: exp.location,

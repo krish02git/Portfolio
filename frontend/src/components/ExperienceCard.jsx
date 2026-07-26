@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-import { Calendar, MapPin } from 'lucide-react';
+import { Calendar, MapPin, ExternalLink } from 'lucide-react';
 import { getTechSvg } from '../utils/techStack';
 
 const ExperienceCard = ({ experience, detailed = false, isHome = false }) => {
@@ -35,6 +35,19 @@ const ExperienceCard = ({ experience, detailed = false, isHome = false }) => {
             )}
           </div>
           <p className="text-[13px] text-muted mt-1">{experience.role}</p>
+          {experience.websiteLink && (
+            <a
+              href={experience.websiteLink}
+              target="_blank"
+              rel="noopener noreferrer"
+              className="flex items-center gap-1.5 text-muted hover:text-[var(--text-main)] transition-colors text-[12px] mt-1"
+              title="Website"
+              onClick={(e) => e.stopPropagation()}
+            >
+              <ExternalLink size={12} />
+              <span>{experience.websiteLink.replace(/^https?:\/\/(www\.)?/, '')}</span>
+            </a>
+          )}
         </div>
 
         <div className="flex flex-col items-start md:items-end mt-3 md:mt-0 text-[13px] text-muted gap-1">

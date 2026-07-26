@@ -45,6 +45,19 @@ const ProjectCard = ({ project, detailed = false, isHome = false }) => {
             )}
           </div>
           <p className="text-[13px] text-muted mt-1">{project.description}</p>
+          {project.liveLink && (
+            <a
+              href={project.liveLink}
+              target="_blank"
+              rel="noopener noreferrer"
+              className="flex items-center gap-1.5 text-muted hover:text-[var(--text-main)] transition-colors text-[12px] mt-1"
+              title="Live"
+              onClick={(e) => e.stopPropagation()}
+            >
+              <ExternalLink size={12} />
+              <span>{project.liveLink.replace(/^https?:\/\/(www\.)?/, '')}</span>
+            </a>
+          )}
         </div>
 
         <div className="flex flex-col items-start sm:items-end mt-3 sm:mt-0 text-[13px] text-muted gap-2 shrink-0">
@@ -69,19 +82,7 @@ const ProjectCard = ({ project, detailed = false, isHome = false }) => {
                 <span>{link.replace(/^https?:\/\/(www\.)?/, '')}</span>
               </a>
             ))}
-            {project.liveLink && (
-              <a
-                href={project.liveLink}
-                target="_blank"
-                rel="noopener noreferrer"
-                className="flex items-center gap-1.5 hover:text-[var(--text-main)] transition-colors text-[12px]"
-                title="Live"
-                onClick={(e) => e.stopPropagation()}
-              >
-                <ExternalLink size={13} />
-                <span>{project.liveLink.replace(/^https?:\/\/(www\.)?/, '')}</span>
-              </a>
-            )}
+
           </div>
         </div>
       </div>

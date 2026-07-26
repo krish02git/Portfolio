@@ -4,6 +4,7 @@ const experienceSchema = new mongoose.Schema({
   company: String,           // manual
   jobType: String,           // "Working", "Internship", "Freelance" etc
   role: String,              // manual
+  websiteLink: String,       // optional company/project website URL
   startDate: String,         // "date/month/year"
   endDate: String,           // date/month/year else option of "Present" // still working 
   location: String,          // "Hyderabad, India (On-Site)"
