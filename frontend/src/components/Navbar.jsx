@@ -54,16 +54,6 @@ const Navbar = () => {
 
   const toggleTheme = (e) => {
     const isDarkTheme = !isDark;
-    const root = document.documentElement;
-
-    // No View Transition support → simple fade
-    if (!document.startViewTransition) {
-      root.classList.add('is-transitioning');
-      flushSync(() => setIsDark(isDarkTheme));
-      setTimeout(() => root.classList.remove('is-transitioning'), 420);
-      return;
-    }
-
     const btn = e.currentTarget;
     const rect = btn.getBoundingClientRect();
     const x = rect.left + rect.width / 2;
@@ -73,34 +63,31 @@ const Navbar = () => {
       Math.max(y, window.innerHeight - y)
     );
 
-    const transition = document.startViewTransition(() => {
-      flushSync(() => setIsDark(isDarkTheme));
+    const overlay = document.createElement('div');
+    overlay.style.cssText = `
+      position: fixed;
+      top: 0; left: 0;
+      width: 100vw; height: 100vh;
+      z-index: 99999;
+      pointer-events: none;
+      background: ${isDarkTheme ? '#0f0f12' : '#e8e8ec'};
+      clip-path: circle(0px at ${x}px ${y}px);
+      transition: clip-path 0.5s ease-in-out;
+    `;
+    document.body.appendChild(overlay);
+
+    requestAnimationFrame(() => {
+      requestAnimationFrame(() => {
+        overlay.style.clipPath = `circle(${endRadius}px at ${x}px ${y}px)`;
+      });
     });
 
-    transition.ready
-      .then(() => {
-        // Test clipPath support on pseudo-elements
-        try {
-          const anim = document.documentElement.animate(
-            {
-              clipPath: [
-                `circle(0px at ${x}px ${y}px)`,
-                `circle(${endRadius}px at ${x}px ${y}px)`,
-              ],
-            },
-            {
-              duration: 500,
-              easing: 'ease-in-out',
-              pseudoElement: '::view-transition-new(root)',
-            }
-          );
-          // If animation isn't supported it'll be null
-          if (!anim) throw new Error();
-        } catch {
-          // Silently fall back — theme already switched
-        }
-      })
-      .catch(() => {});
+    setTimeout(() => {
+      setIsDark(isDarkTheme);
+      setTimeout(() => {
+        overlay.remove();
+      }, 50);
+    }, 480);
   };
 
   return (
