@@ -54,81 +54,49 @@ const Navbar = () => {
 
   const toggleTheme = (e) => {
     const isDarkTheme = !isDark;
-
-    // Safely calculate exact button center coordinates
-    const btn = e?.currentTarget || e?.target?.closest('button');
-    const rect = btn?.getBoundingClientRect ? btn.getBoundingClientRect() : null;
-    const x = rect ? rect.left + rect.width / 2 : window.innerWidth - 40;
-    const y = rect ? rect.top + rect.height / 2 : 30;
-
+    const btn = e.currentTarget;
+    const rect = btn.getBoundingClientRect();
+    const x = rect.left + rect.width / 2;
+    const y = rect.top + rect.height / 2;
     const endRadius = Math.hypot(
       Math.max(x, window.innerWidth - x),
       Math.max(y, window.innerHeight - y)
     );
 
-    // Method 1: Modern View Transition API (Chrome/Edge Desktop & Android)
-    if (document.startViewTransition) {
-      try {
-        const transition = document.startViewTransition(() => {
-          flushSync(() => setIsDark(isDarkTheme));
-        });
-
-        transition.ready
-          .then(() => {
-            document.documentElement.animate(
-              {
-                clipPath: [
-                  `circle(0px at ${x}px ${y}px)`,
-                  `circle(${endRadius}px at ${x}px ${y}px)`,
-                ],
-              },
-              {
-                duration: 500,
-                easing: 'ease-in-out',
-                pseudoElement: '::view-transition-new(root)',
-              }
-            );
-          })
-          .catch(() => {
-            setIsDark(isDarkTheme);
-          });
-        return;
-      } catch (err) {
-        // Fall back below if startViewTransition fails
-      }
+    // Fallback for browsers without View Transition API or clipPath animation
+    if (!document.startViewTransition) {
+      const root = document.documentElement;
+      root.classList.add('is-transitioning');
+      flushSync(() => setIsDark(isDarkTheme));
+      setTimeout(() => root.classList.remove('is-transitioning'), 420);
+      return;
     }
 
-    // Method 2: Universal Circular Reveal Fallback (Safari, Firefox, iOS, Laptops)
-    const root = document.documentElement;
-    root.classList.add('is-transitioning');
-
-    const newBg = isDarkTheme ? '#0f0f12' : '#e8e8ec';
-    const duration = 500;
-
-    const overlay = document.createElement('div');
-    overlay.style.cssText = [
-      'position: fixed',
-      'inset: 0',
-      'z-index: 99999',
-      `background: ${newBg}`,
-      'pointer-events: none',
-      `clip-path: circle(0px at ${x}px ${y}px)`,
-      `transition: clip-path ${duration}ms ease-in-out`,
-    ].join(';');
-    document.body.appendChild(overlay);
-
-    // Force reflow then trigger circle expansion
-    void overlay.offsetHeight;
-    overlay.style.clipPath = `circle(${endRadius}px at ${x}px ${y}px)`;
-
-    setTimeout(() => {
+    const transition = document.startViewTransition(() => {
       flushSync(() => setIsDark(isDarkTheme));
-    }, duration / 2);
+    });
 
-    setTimeout(() => {
-      overlay.remove();
-      root.classList.remove('is-transitioning');
-    }, duration + 50);
+    transition.ready
+      .then(() => {
+        // Check if clipPath animation is supported
+        const supported = CSS.supports('clip-path', 'circle(0px at 0px 0px)');
+        if (!supported) return;
+
+        document.documentElement.animate(
+          {
+            clipPath: [
+              `circle(0px at ${x}px ${y}px)`,
+              `circle(${endRadius}px at ${x}px ${y}px)`,
+            ],
+          },
+          {
+            duration: 500,
+            easing: 'ease-in-out',
+            pseudoElement: '::view-transition-new(root)',
+          }
+        );
+      })
+      .catch(() => {});
   };
 
   return (
