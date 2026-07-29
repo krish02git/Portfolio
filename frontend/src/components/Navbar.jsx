@@ -40,15 +40,22 @@ const Navbar = () => {
   ];
 
   const toggleTheme = () => {
+    const root = document.documentElement;
+    root.classList.add('is-theme-switching');
+
     const nextDark = !isDark;
     if (nextDark) {
-      document.documentElement.classList.add('dark');
+      root.classList.add('dark');
       localStorage.setItem('theme', 'dark');
     } else {
-      document.documentElement.classList.remove('dark');
+      root.classList.remove('dark');
       localStorage.setItem('theme', 'light');
     }
     setIsDark(nextDark);
+
+    setTimeout(() => {
+      root.classList.remove('is-theme-switching');
+    }, 320);
   };
 
   return (
