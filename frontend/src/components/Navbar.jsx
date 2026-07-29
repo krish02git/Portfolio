@@ -1,14 +1,11 @@
 import { Link, useLocation, useNavigate } from 'react-router-dom';
 import { useState, useEffect } from 'react';
-import { flushSync } from 'react-dom';
 import HireModal from './HireModal';
 
 const Navbar = () => {
   const location = useLocation();
   const navigate = useNavigate();
   const [isDark, setIsDark] = useState(() => {
-    // Read from the DOM class that was already applied by the inline script in index.html.
-    // This keeps React state in sync with the real DOM on first render (critical on mobile).
     return document.documentElement.classList.contains('dark');
   });
 
@@ -52,60 +49,8 @@ const Navbar = () => {
     { name: 'Resume', path: '/resume' }
   ];
 
-  const toggleTheme = (e) => {
-    const isDarkTheme = !isDark;
-    const btn = e.currentTarget;
-    const rect = btn.getBoundingClientRect();
-    const x = rect.left + rect.width / 2;
-    const y = rect.top + rect.height / 2;
-    const endRadius = Math.hypot(
-      Math.max(x, window.innerWidth - x),
-      Math.max(y, window.innerHeight - y)
-    );
-
-    const root = document.documentElement;
-
-    // 1. Enable smooth per-element color transitions across all text, cards & backgrounds
-    root.classList.add('is-transitioning');
-    setIsDark(isDarkTheme);
-
-    // 2. Spawn a glowing radial ripple wave originating from button center
-    const ripple = document.createElement('div');
-    const accentColor = isDarkTheme ? 'rgba(129, 140, 248, 0.45)' : 'rgba(79, 70, 229, 0.35)';
-
-    ripple.style.cssText = `
-      position: fixed;
-      top: ${y}px;
-      left: ${x}px;
-      width: 0px;
-      height: 0px;
-      border-radius: 50%;
-      transform: translate(-50%, -50%);
-      pointer-events: none;
-      z-index: 99999;
-      box-shadow: 0 0 0 0px ${accentColor}, 0 0 40px 10px ${accentColor};
-      transition: width 0.6s cubic-bezier(0.2, 0.8, 0.2, 1), 
-                  height 0.6s cubic-bezier(0.2, 0.8, 0.2, 1), 
-                  opacity 0.6s ease-out;
-      opacity: 1;
-    `;
-    document.body.appendChild(ripple);
-
-    // Trigger wave expansion across the page
-    requestAnimationFrame(() => {
-      requestAnimationFrame(() => {
-        const size = endRadius * 2.2;
-        ripple.style.width = `${size}px`;
-        ripple.style.height = `${size}px`;
-        ripple.style.opacity = '0';
-      });
-    });
-
-    // Cleanup
-    setTimeout(() => {
-      ripple.remove();
-      root.classList.remove('is-transitioning');
-    }, 620);
+  const toggleTheme = () => {
+    setIsDark((prev) => !prev);
   };
 
   return (
@@ -146,14 +91,16 @@ const Navbar = () => {
 
           <button
             onClick={toggleTheme}
-            className="neo-button-subtle !rounded-full w-[38px] h-[38px] p-0 flex items-center justify-center text-muted hover:text-[var(--text-main)] transition-colors"
+            className="neo-button-subtle !rounded-full w-[38px] h-[38px] p-0 flex items-center justify-center text-muted hover:text-[var(--text-main)] transition-transform active:scale-95"
             title="Toggle Theme"
           >
-            {isDark ? (
-              <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"><circle cx="12" cy="12" r="4" /><path d="M12 2v2" /><path d="M12 20v2" /><path d="m4.93 4.93 1.41 1.41" /><path d="m17.66 17.66 1.41 1.41" /><path d="M2 12h2" /><path d="M20 12h2" /><path d="m6.34 17.66-1.41 1.41" /><path d="m19.07 4.93-1.41 1.41" /></svg>
-            ) : (
-              <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"><path d="M12 3a6 6 0 0 0 9 9 9 9 0 1 1-9-9Z" /></svg>
-            )}
+            <span className="transition-transform duration-300 transform rotate-0 hover:rotate-45 flex items-center justify-center">
+              {isDark ? (
+                <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"><circle cx="12" cy="12" r="4" /><path d="M12 2v2" /><path d="M12 20v2" /><path d="m4.93 4.93 1.41 1.41" /><path d="m17.66 17.66 1.41 1.41" /><path d="M2 12h2" /><path d="M20 12h2" /><path d="m6.34 17.66-1.41 1.41" /><path d="m19.07 4.93-1.41 1.41" /></svg>
+              ) : (
+                <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"><path d="M12 3a6 6 0 0 0 9 9 9 9 0 1 1-9-9Z" /></svg>
+              )}
+            </span>
           </button>
         </div>
       </div>
