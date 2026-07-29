@@ -52,7 +52,11 @@ const Navbar = () => {
   ];
 
   const toggleTheme = () => {
+    const root = document.documentElement;
+    root.classList.add('is-transitioning');
     setIsDark(prev => !prev);
+    // Remove after transition finishes so it doesn't affect hover/other animations
+    setTimeout(() => root.classList.remove('is-transitioning'), 420);
   };
 
   return (
