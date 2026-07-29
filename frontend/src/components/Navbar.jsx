@@ -1,5 +1,6 @@
 import { Link, useLocation, useNavigate } from 'react-router-dom';
 import { useState, useEffect } from 'react';
+import { flushSync } from 'react-dom';
 import HireModal from './HireModal';
 
 const Navbar = () => {
@@ -51,12 +52,47 @@ const Navbar = () => {
     { name: 'Resume', path: '/resume' }
   ];
 
-  const toggleTheme = () => {
-    const root = document.documentElement;
-    root.classList.add('is-transitioning');
-    setIsDark(prev => !prev);
-    // Remove after transition finishes so it doesn't affect hover/other animations
-    setTimeout(() => root.classList.remove('is-transitioning'), 420);
+  const toggleTheme = (e) => {
+    const isDarkTheme = !isDark;
+    const btn = e.currentTarget;
+    const rect = btn.getBoundingClientRect();
+    const x = rect.left + rect.width / 2;
+    const y = rect.top + rect.height / 2;
+    const endRadius = Math.hypot(
+      Math.max(x, window.innerWidth - x),
+      Math.max(y, window.innerHeight - y)
+    );
+
+    // Fallback for browsers without View Transition API
+    if (!document.startViewTransition) {
+      const root = document.documentElement;
+      root.classList.add('is-transitioning');
+      setIsDark(isDarkTheme);
+      setTimeout(() => root.classList.remove('is-transitioning'), 420);
+      return;
+    }
+
+    const transition = document.startViewTransition(() => {
+      flushSync(() => setIsDark(isDarkTheme));
+    });
+
+    transition.ready
+      .then(() => {
+        document.documentElement.animate(
+          {
+            clipPath: [
+              `circle(0px at ${x}px ${y}px)`,
+              `circle(${endRadius}px at ${x}px ${y}px)`,
+            ],
+          },
+          {
+            duration: 500,
+            easing: 'ease-in-out',
+            pseudoElement: '::view-transition-new(root)',
+          }
+        );
+      })
+      .catch(() => {});
   };
 
   return (
