@@ -99,6 +99,9 @@ const Navbar = () => {
     }
 
     // Method 2: Universal Circular Reveal Fallback (Safari, Firefox, iOS, Laptops)
+    const root = document.documentElement;
+    root.classList.add('is-transitioning');
+
     const newBg = isDarkTheme ? '#0f0f12' : '#e8e8ec';
     const duration = 500;
 
@@ -119,11 +122,12 @@ const Navbar = () => {
     overlay.style.clipPath = `circle(${endRadius}px at ${x}px ${y}px)`;
 
     setTimeout(() => {
-      setIsDark(isDarkTheme);
+      flushSync(() => setIsDark(isDarkTheme));
     }, duration / 2);
 
     setTimeout(() => {
       overlay.remove();
+      root.classList.remove('is-transitioning');
     }, duration + 50);
   };
 
