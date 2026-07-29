@@ -13,16 +13,6 @@ const Navbar = () => {
   const [isHireModalOpen, setIsHireModalOpen] = useState(false);
 
   useEffect(() => {
-    if (isDark) {
-      document.documentElement.classList.add('dark');
-      localStorage.setItem('theme', 'dark');
-    } else {
-      document.documentElement.classList.remove('dark');
-      localStorage.setItem('theme', 'light');
-    }
-  }, [isDark]);
-
-  useEffect(() => {
     const handleScroll = () => {
       setIsScrolled(window.scrollY > 15);
     };
@@ -50,7 +40,15 @@ const Navbar = () => {
   ];
 
   const toggleTheme = () => {
-    setIsDark((prev) => !prev);
+    const nextDark = !isDark;
+    if (nextDark) {
+      document.documentElement.classList.add('dark');
+      localStorage.setItem('theme', 'dark');
+    } else {
+      document.documentElement.classList.remove('dark');
+      localStorage.setItem('theme', 'light');
+    }
+    setIsDark(nextDark);
   };
 
   return (
@@ -60,9 +58,7 @@ const Navbar = () => {
         : 'backdrop-blur-md'
         }`}
       style={{
-        backgroundColor: isScrolled
-          ? (isDark ? 'rgba(15, 15, 18, 0.12)' : 'rgba(232, 232, 236, 0.12)')
-          : (isDark ? 'rgba(15, 15, 18, 0.72)' : 'rgba(232, 232, 236, 0.75)')
+        backgroundColor: isScrolled ? 'var(--nav-scrolled-bg)' : 'var(--nav-bg)'
       }}
     >
       <div className="flex justify-between items-center py-3.5 px-4 md:px-6 max-w-[600px] mx-auto w-full">

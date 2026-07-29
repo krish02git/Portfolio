@@ -12,6 +12,7 @@
   --neo-shadow-dark: #b8bec9;
   --neo-border: transparent;
   --nav-bg: rgba(232, 232, 236, 0.75);
+  --nav-scrolled-bg: rgba(232, 232, 236, 0.12);
   --footer-bg: #d8d8de;
   --accent: #4f46e5;
 }
@@ -25,6 +26,7 @@
   --neo-shadow-dark: rgba(0, 0, 0, 0.9);
   --neo-border: rgba(255, 255, 255, 0.06);
   --nav-bg: rgba(15, 15, 18, 0.72);
+  --nav-scrolled-bg: rgba(15, 15, 18, 0.12);
   --footer-bg: #18181e;
   --accent: #818cf8;
 }
