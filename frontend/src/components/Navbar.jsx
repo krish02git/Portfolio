@@ -54,6 +54,16 @@ const Navbar = () => {
 
   const toggleTheme = (e) => {
     const isDarkTheme = !isDark;
+    const root = document.documentElement;
+
+    // No View Transition support → simple fade
+    if (!document.startViewTransition) {
+      root.classList.add('is-transitioning');
+      flushSync(() => setIsDark(isDarkTheme));
+      setTimeout(() => root.classList.remove('is-transitioning'), 420);
+      return;
+    }
+
     const btn = e.currentTarget;
     const rect = btn.getBoundingClientRect();
     const x = rect.left + rect.width / 2;
@@ -63,38 +73,32 @@ const Navbar = () => {
       Math.max(y, window.innerHeight - y)
     );
 
-    // Fallback for browsers without View Transition API or clipPath animation
-    if (!document.startViewTransition) {
-      const root = document.documentElement;
-      root.classList.add('is-transitioning');
-      flushSync(() => setIsDark(isDarkTheme));
-      setTimeout(() => root.classList.remove('is-transitioning'), 420);
-      return;
-    }
-
     const transition = document.startViewTransition(() => {
       flushSync(() => setIsDark(isDarkTheme));
     });
 
     transition.ready
       .then(() => {
-        // Check if clipPath animation is supported
-        const supported = CSS.supports('clip-path', 'circle(0px at 0px 0px)');
-        if (!supported) return;
-
-        document.documentElement.animate(
-          {
-            clipPath: [
-              `circle(0px at ${x}px ${y}px)`,
-              `circle(${endRadius}px at ${x}px ${y}px)`,
-            ],
-          },
-          {
-            duration: 500,
-            easing: 'ease-in-out',
-            pseudoElement: '::view-transition-new(root)',
-          }
-        );
+        // Test clipPath support on pseudo-elements
+        try {
+          const anim = document.documentElement.animate(
+            {
+              clipPath: [
+                `circle(0px at ${x}px ${y}px)`,
+                `circle(${endRadius}px at ${x}px ${y}px)`,
+              ],
+            },
+            {
+              duration: 500,
+              easing: 'ease-in-out',
+              pseudoElement: '::view-transition-new(root)',
+            }
+          );
+          // If animation isn't supported it'll be null
+          if (!anim) throw new Error();
+        } catch {
+          // Silently fall back — theme already switched
+        }
       })
       .catch(() => {});
   };
