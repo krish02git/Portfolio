@@ -7,8 +7,9 @@ const Navbar = () => {
   const location = useLocation();
   const navigate = useNavigate();
   const [isDark, setIsDark] = useState(() => {
-    const saved = localStorage.getItem('theme');
-    return saved === 'dark'; // Defaults to false (light theme) if not set
+    // Read from the DOM class that was already applied by the inline script in index.html.
+    // This keeps React state in sync with the real DOM on first render (critical on mobile).
+    return document.documentElement.classList.contains('dark');
   });
 
   const [isScrolled, setIsScrolled] = useState(false);
