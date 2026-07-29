@@ -52,39 +52,7 @@ const Navbar = () => {
   ];
 
   const toggleTheme = () => {
-    const isDarkTheme = !isDark;
-    // New theme's background color — what the circles will be filled with
-    const newBg = isDarkTheme ? '#0f0f12' : '#e8e8ec';
-    const cx = window.innerWidth / 2;
-    const endRadius = Math.hypot(cx, window.innerHeight); // reaches every corner
-    const duration = 580;
-
-    // Spawn two overlay divs — one from top-center, one from bottom-center
-    const origins = [0, window.innerHeight];
-    const overlays = origins.map((cy) => {
-      const div = document.createElement('div');
-      div.style.cssText = [
-        'position:fixed', 'inset:0', 'z-index:99998',
-        `background:${newBg}`, 'pointer-events:none',
-        `clip-path:circle(0px at ${cx}px ${cy}px)`,
-      ].join(';');
-      document.body.appendChild(div);
-
-      div.animate(
-        [
-          { clipPath: `circle(0px at ${cx}px ${cy}px)` },
-          { clipPath: `circle(${endRadius}px at ${cx}px ${cy}px)` },
-        ],
-        { duration, easing: 'ease-in-out', fill: 'forwards' }
-      );
-      return div;
-    });
-
-    // Switch theme at the midpoint so it's hidden under the expanding circles
-    setTimeout(() => setIsDark(isDarkTheme), duration / 2);
-
-    // Remove overlays once animation completes
-    setTimeout(() => overlays.forEach((div) => div.remove()), duration + 50);
+    setIsDark(prev => !prev);
   };
 
   return (
