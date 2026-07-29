@@ -63,31 +63,49 @@ const Navbar = () => {
       Math.max(y, window.innerHeight - y)
     );
 
-    const overlay = document.createElement('div');
-    overlay.style.cssText = `
-      position: fixed;
-      top: 0; left: 0;
-      width: 100vw; height: 100vh;
-      z-index: 99999;
-      pointer-events: none;
-      background: ${isDarkTheme ? '#0f0f12' : '#e8e8ec'};
-      clip-path: circle(0px at ${x}px ${y}px);
-      transition: clip-path 0.5s ease-in-out;
-    `;
-    document.body.appendChild(overlay);
+    const root = document.documentElement;
 
+    // 1. Enable smooth per-element color transitions across all text, cards & backgrounds
+    root.classList.add('is-transitioning');
+    setIsDark(isDarkTheme);
+
+    // 2. Spawn a glowing radial ripple wave originating from button center
+    const ripple = document.createElement('div');
+    const accentColor = isDarkTheme ? 'rgba(129, 140, 248, 0.45)' : 'rgba(79, 70, 229, 0.35)';
+
+    ripple.style.cssText = `
+      position: fixed;
+      top: ${y}px;
+      left: ${x}px;
+      width: 0px;
+      height: 0px;
+      border-radius: 50%;
+      transform: translate(-50%, -50%);
+      pointer-events: none;
+      z-index: 99999;
+      box-shadow: 0 0 0 0px ${accentColor}, 0 0 40px 10px ${accentColor};
+      transition: width 0.6s cubic-bezier(0.2, 0.8, 0.2, 1), 
+                  height 0.6s cubic-bezier(0.2, 0.8, 0.2, 1), 
+                  opacity 0.6s ease-out;
+      opacity: 1;
+    `;
+    document.body.appendChild(ripple);
+
+    // Trigger wave expansion across the page
     requestAnimationFrame(() => {
       requestAnimationFrame(() => {
-        overlay.style.clipPath = `circle(${endRadius}px at ${x}px ${y}px)`;
+        const size = endRadius * 2.2;
+        ripple.style.width = `${size}px`;
+        ripple.style.height = `${size}px`;
+        ripple.style.opacity = '0';
       });
     });
 
+    // Cleanup
     setTimeout(() => {
-      setIsDark(isDarkTheme);
-      setTimeout(() => {
-        overlay.remove();
-      }, 50);
-    }, 480);
+      ripple.remove();
+      root.classList.remove('is-transitioning');
+    }, 620);
   };
 
   return (
